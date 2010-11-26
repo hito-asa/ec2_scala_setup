@@ -1,0 +1,68 @@
+sudo -s
+cd /usr/local/src/
+wget http://www.scala-lang.org/downloads/distrib/files/scala-2.8.1.final.tgz
+wget http://www.scala-lang.org/sites/default/files/linuxsoft_archives/downloads/distrib/files/scala-2.8.0.final.tgz
+wget http://www.scala-lang.org/sites/default/files/linuxsoft_archives/downloads/distrib/files/scala-2.7.7.final.tgz
+wget "http://cds.sun.com/is-bin/INTERSHOP.enfinity/WFS/CDS-CDS_Developer-Site/en_US/-/USD/VerifyItem-Start/jdk-6u22-linux-i586.bin?BundledLineItemUUID=PKSJ_hCu4ogAAAEsivUkgIeq&OrderID=Dg6J_hCuOokAAAEsgPUkgIeq&ProductID=XUuJ_hCwWmcAAAErMVJuIQy3&FileName=/jdk-6u22-linux-i586.bin" -O jdk-6u22-linux-i586.bin
+cd ..
+mkdir java
+mkdir scala
+cd scala/
+cp ../src/scala-* .
+tar xzf scala-2.7.7.final.tgz
+tar xzf scala-2.8.0.final.tgz
+tar xzf scala-2.8.1.final.tgz
+rm *.tgz
+chown -R root:root *
+cd ../java/
+cp ../src/
+cp ../src/jdk-6u22-linux-i586.bin .
+chmod 777 jdk-6u22-linux-i586.bin
+./jdk-6u22-linux-i586.bin
+rm jdk-6u22-linux-i586.bin
+ln -s /usr/local/java/jdk1.6.0_22 /usr/local/java/latest
+
+cd ../scala/scala-2.8.1.final/bin/
+rm *.bat
+mv sbaz sbaz281
+mv scala scala281
+mv scalac scalac281
+mv scaladoc scaladoc281
+mv scalap scalap281
+mv sbaz-setup sbaz-setup281
+
+cd ../../scala-2.8.0.final/bin/
+rm *.bat
+mv fsc fsc280
+mv sbaz sbaz280
+mv scala scala280
+mv scalac scalac280
+mv scaladoc scaladoc280
+mv scalap scalap280
+mv sbaz-setup sbaz-setup280
+
+cd ../../scala-2.7.7.final/bin/
+rm *.bat
+mv fsc fsc277
+mv sbaz sbaz277
+mv scala scala277
+mv scalac scalac277
+mv scaladoc scaladoc277
+mv sbaz-setup sbaz-setup277
+
+cd /etc/profile.d/
+rm -rf java.sh
+echo """export JAVA_HOME=/usr/local/java/latest
+SCALA281=/usr/local/scala/scala-2.8.1.final
+SCALA280=/usr/local/scala/scala-2.8.0.final
+SCALA277=/usr/local/scala/scala-2.7.7.final
+PATH=\$JAVA_HOME/bin:\$PATH
+PATH=\$SCALA281/bin:\$PATH
+PATH=\$SCALA280/bin:\$PATH
+PATH=\$SCALA277/bin:\$PATH
+export PATH=\$PATH
+alias scala='scala281'
+alias scalac='scalac281'
+alias fsc='fsc281'
+""" > scala.sh
+
